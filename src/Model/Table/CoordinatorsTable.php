@@ -44,9 +44,14 @@ class CoordinatorsTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
-        $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+//         $validator
+//             ->integer('id')
+//             ->allowEmpty('id', 'create');
+
+//         $validator
+//             ->integer('id_user')
+//             ->requirePresence('id_user', 'create')
+//             ->notEmpty('id_user');
 
         $validator
             ->scalar('appellation')

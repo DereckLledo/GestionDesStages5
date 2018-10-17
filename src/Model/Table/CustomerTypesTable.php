@@ -42,15 +42,15 @@ class CustomerTypesTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
-        $validator
-            ->integer('id')
-            ->requirePresence('id', 'create')
-            ->notEmpty('id');
+//         $validator
+//             ->integer('id')
+//             ->requirePresence('id', 'create')
+//             ->notEmpty('id');
 
-        $validator
-            ->integer('id_internship_place')
-            ->requirePresence('id_internship_place', 'create')
-            ->notEmpty('id_internship_place');
+//         $validator
+//             ->integer('id_internship_place')
+//             ->requirePresence('id_internship_place', 'create')
+//             ->notEmpty('id_internship_place');
 
         $validator
             ->allowEmpty('cdj');

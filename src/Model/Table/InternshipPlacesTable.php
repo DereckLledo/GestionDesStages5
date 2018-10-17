@@ -44,9 +44,9 @@ class InternshipPlacesTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
-        $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+//         $validator
+//             ->integer('id')
+//             ->allowEmpty('id', 'create');
 
         $validator
             ->scalar('name')

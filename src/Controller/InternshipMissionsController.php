@@ -51,6 +51,9 @@ class InternshipMissionsController extends AppController
         $internshipMission = $this->InternshipMissions->newEntity();
         if ($this->request->is('post')) {
             $internshipMission = $this->InternshipMissions->patchEntity($internshipMission, $this->request->getData());
+            
+            $internshipMission->user_id = $this->Auth->user('id');
+            
             if ($this->InternshipMissions->save($internshipMission)) {
                 $this->Flash->success(__('The internship mission has been saved.'));
 
@@ -74,7 +77,10 @@ class InternshipMissionsController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $internshipMission = $this->InternshipMissions->patchEntity($internshipMission, $this->request->getData());
+        	$internshipMission = $this->InternshipMissions->patchEntity($internshipMission, $this->request->getData(), [
+        			// Added: Disable modification of user_id.
+        			'accessibleFields' => ['user_id' => false]
+        	]);
             if ($this->InternshipMissions->save($internshipMission)) {
                 $this->Flash->success(__('The internship mission has been saved.'));
 

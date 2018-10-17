@@ -25,14 +25,6 @@
             <td><?= h($internshipOffer->category) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Id') ?></th>
-            <td><?= $this->Number->format($internshipOffer->id) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Id Official') ?></th>
-            <td><?= $this->Number->format($internshipOffer->id_official) ?></td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Number Of Hour') ?></th>
             <td><?= $this->Number->format($internshipOffer->number_of_hour) ?></td>
         </tr>
@@ -48,5 +40,12 @@
     <div class="row">
         <h4><?= __('Task') ?></h4>
         <?= $this->Text->autoParagraph(h($internshipOffer->task)); ?>
+    </div>
+    
+        <div class="row">
+        <h4><?= __('Contact') ?></h4>
+        <?= $this->Html->link($official->first_name." ".$official->last_name, '/Officials/view/'.$official->id);?>
+        
+        
     </div>
 </div>

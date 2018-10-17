@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
 
 /**
  * InternshipPlaces Controller
@@ -12,6 +13,11 @@ use App\Controller\AppController;
  */
 class InternshipPlacesController extends AppController
 {
+	public function initialize()
+	{
+		parent::initialize();
+		$this->Auth->allow(['index']);
+	}
 
     /**
      * Index method
@@ -51,6 +57,9 @@ class InternshipPlacesController extends AppController
         $internshipPlace = $this->InternshipPlaces->newEntity();
         if ($this->request->is('post')) {
             $internshipPlace = $this->InternshipPlaces->patchEntity($internshipPlace, $this->request->getData());
+            
+            $internshipPlace->user_id = $this->Auth->user('id');
+            
             if ($this->InternshipPlaces->save($internshipPlace)) {
                 $this->Flash->success(__('The internship place has been saved.'));
 
@@ -74,7 +83,10 @@ class InternshipPlacesController extends AppController
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $internshipPlace = $this->InternshipPlaces->patchEntity($internshipPlace, $this->request->getData());
+        	$internshipPlace = $this->InternshipPlaces->patchEntity($internshipPlace, $this->request->getData(), [
+        			// Added: Disable modification of user_id.
+        			'accessibleFields' => ['user_id' => false]
+        	]);
             if ($this->InternshipPlaces->save($internshipPlace)) {
                 $this->Flash->success(__('The internship place has been saved.'));
 
@@ -103,5 +115,52 @@ class InternshipPlacesController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+    
+    public function isAuthorized($user)
+    {
+    	
+    	$id = $this->request->getParam('pass.0');
+    	$action = $this->request->getParam('action');
+        //TODO: Modifier les autorisations
+        
+        //Coordinators ont tous les droits sur les InternshipPlaces
+        if ($user['type'] == 1 ){
+            return true;
+        }
+        
+        //tout le monde peut modifier les places, POUR L'INSTANT
+        if (in_array($action, ['view', 'edit'])){
+            return true;
+        }
+    	
+//    	//     	$studentsTable = TableRegistry::get('students');
+//    	//     	$query = $studentsTable->findById_user($id);
+//    	//     	$student = $query->toArray();
+//    	
+//    	
+//    	
+//    	if ($user['type'] == "1") {
+//    		return true;
+//    	} else if ($user['type'] == "0") {
+//    		// The add and tags actions are always allowed to logged in users.
+//    		if (in_array($action, ['view'])) {
+//    			
+//    			return true;
+//    		}
+//    		
+//    	} else if ($user['type'] == "2") {
+//    		if (in_array($action, ['view'])) {
+//    			
+//    			return true;
+//    		}
+//    	}
+//    	// All other actions require a slug.
+//    	
+//    	if (!$id) {
+//    		return false;
+//    	}
+    	
+    	return false;
     }
 }

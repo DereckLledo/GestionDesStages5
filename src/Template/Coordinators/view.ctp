@@ -76,5 +76,9 @@
             <th scope="row"><?= __('Id') ?></th>
             <td><?= $this->Number->format($coordinator->id) ?></td>
         </tr>
+        <tr>
+            <th scope="row"><?= __('Id User') ?></th>
+            <td><?= $this->Number->format($coordinator->id_user) ?></td>
+        </tr>
     </table>
 </div>

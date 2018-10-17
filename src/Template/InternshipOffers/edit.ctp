@@ -21,7 +21,6 @@
     <fieldset>
         <legend><?= __('Edit Internship Offer') ?></legend>
         <?php
-            echo $this->Form->control('id_official');
             echo $this->Form->control('title');
             echo $this->Form->control('description');
             echo $this->Form->control('task');

@@ -15,9 +15,6 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('id_internship_place') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('appellation') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('title') ?></th>
@@ -37,9 +34,6 @@
         <tbody>
             <?php foreach ($officials as $official): ?>
             <tr>
-                <td><?= $this->Number->format($official->id) ?></td>
-                <td><?= $this->Number->format($official->id_internship_place) ?></td>
-                <td><?= h($official->appellation) ?></td>
                 <td><?= h($official->first_name) ?></td>
                 <td><?= h($official->last_name) ?></td>
                 <td><?= h($official->title) ?></td>

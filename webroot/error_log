@@ -1,0 +1,1 @@
+[26-Sep-2018 17:55:24 UTC] PHP Parse error:  syntax error, unexpected ''timezone'' (T_CONSTANT_ENCAPSED_STRING), expecting ']' in /home/gestio53/public_html/config/app.php on line 264

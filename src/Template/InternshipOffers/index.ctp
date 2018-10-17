@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\InternshipOffer[]|\Cake\Collection\CollectionInterface $internshipOffers
@@ -15,8 +16,6 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('id_official') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('title') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('remuneration') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('number_of_hour') ?></th>
@@ -27,10 +26,12 @@
         <tbody>
             <?php foreach ($internshipOffers as $internshipOffer): ?>
             <tr>
-                <td><?= $this->Number->format($internshipOffer->id) ?></td>
-                <td><?= $this->Number->format($internshipOffer->id_official) ?></td>
                 <td><?= h($internshipOffer->title) ?></td>
-                <td><?= h($internshipOffer->remuneration) ?></td>
+
+                <td><?php $rem = $internshipOffer->remuneration;
+                          $x = ($rem == 1)?"Yes" : "No";
+                          echo ($x);?></td>
+
                 <td><?= $this->Number->format($internshipOffer->number_of_hour) ?></td>
                 <td><?= h($internshipOffer->category) ?></td>
                 <td class="actions">

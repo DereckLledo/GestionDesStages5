@@ -7,6 +7,7 @@ use Cake\ORM\Entity;
  * Coordinator Entity
  *
  * @property int $id
+ * @property int $id_user
  * @property string $appellation
  * @property string $first_name
  * @property string $last_name
@@ -35,6 +36,7 @@ class Coordinator extends Entity
      * @var array
      */
     protected $_accessible = [
+        'id_user' => true,
         'appellation' => true,
         'first_name' => true,
         'last_name' => true,

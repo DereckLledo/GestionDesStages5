@@ -7,6 +7,7 @@ use Cake\ORM\Entity;
  * Student Entity
  *
  * @property int $id
+ * @property int $id_user
  * @property int $admission_number
  * @property string $first_name
  * @property string $last_name
@@ -29,6 +30,7 @@ class Student extends Entity
      * @var array
      */
     protected $_accessible = [
+        'id_user' => true,
         'admission_number' => true,
         'first_name' => true,
         'last_name' => true,

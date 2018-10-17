@@ -44,13 +44,13 @@ class InternshipMissionsTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
-        $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+//         $validator
+//             ->integer('id')
+//             ->allowEmpty('id', 'create');
 
-        $validator
-            ->integer('id_internship_place')
-            ->allowEmpty('id_internship_place');
+//         $validator
+//             ->integer('id_internship_place')
+//             ->allowEmpty('id_internship_place');
 
         $validator
             ->allowEmpty('cdj');

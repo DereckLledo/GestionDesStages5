@@ -21,10 +21,14 @@
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
         <?php
+        $options=array(0 => 'Student', 1=>'Coordinator', 3=>'Official');
             echo $this->Form->control('username');
-            echo $this->Form->control('email');
             echo $this->Form->control('password');
-            echo $this->Form->control('type');
+            
+            $loguser = $this->request->getSession()->read('Auth.User');
+            if ($loguser['type'] == "1") {
+            	echo $this->Form->control('type', array('type'=>'select', 'options'=>$options, 'label'=>false, 'empty'=>'Category'));
+            }
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

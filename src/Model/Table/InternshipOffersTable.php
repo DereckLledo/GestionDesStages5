@@ -44,14 +44,14 @@ class InternshipOffersTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
-        $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
+//         $validator
+//             ->integer('id')
+//             ->allowEmpty('id', 'create');
 
-        $validator
-            ->integer('id_official')
-            ->requirePresence('id_official', 'create')
-            ->notEmpty('id_official');
+//         $validator
+//             ->integer('id_official')
+//             ->requirePresence('id_official', 'create')
+//             ->notEmpty('id_official');
 
         $validator
             ->scalar('title')

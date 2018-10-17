@@ -15,14 +15,24 @@
 </nav>
 <div class="users view large-9 medium-8 columns content">
     <h3><?= h($user->id) ?></h3>
+    
+    <?php 
+            $Type = "";
+            
+            if ($user->type == 0) {
+            	$Type = "Student";
+            } else if ($user->type == 1) {
+            	$Type ="Coordinator";
+            } else {
+            	$Type ="Official";
+            }
+            
+            ?>
+    
     <table class="vertical-table">
         <tr>
             <th scope="row"><?= __('Username') ?></th>
             <td><?= h($user->username) ?></td>
-        </tr>
-        <tr>
-            <th scope="row"><?= __('Email') ?></th>
-            <td><?= h($user->email) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Password') ?></th>
@@ -30,7 +40,7 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Type') ?></th>
-            <td><?= h($user->type) ?></td>
+            <td><?= h($Type) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>

@@ -15,6 +15,7 @@
     <fieldset>
         <legend><?= __('Add Coordinator') ?></legend>
         <?php
+            echo $this->Form->control('id_user');
             echo $this->Form->control('appellation');
             echo $this->Form->control('first_name');
             echo $this->Form->control('last_name');

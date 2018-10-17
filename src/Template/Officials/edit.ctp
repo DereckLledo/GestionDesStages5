@@ -21,7 +21,6 @@
     <fieldset>
         <legend><?= __('Edit Official') ?></legend>
         <?php
-            echo $this->Form->control('id_internship_place');
             echo $this->Form->control('appellation');
             echo $this->Form->control('first_name');
             echo $this->Form->control('last_name');
