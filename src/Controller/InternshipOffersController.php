@@ -25,8 +25,18 @@ class InternshipOffersController extends AppController {
      * @return \Cake\Http\Response|void
      */
     public function index() {
-        $internshipOffers = $this->paginate($this->InternshipOffers);
+        $type = $this->Auth->user('type');
+        $id_user = $this->Auth->user('id');
 
+        //SI le user connecté est un official(employeur), on lui affiche seulement ses propres internshipOffers
+        if ($type == 2) {
+            $query = $this->InternshipOffers->find()->where(['id_user' =>  $id_user]);
+            $internshipOffers = $this->paginate($query);
+
+        } else {
+            $internshipOffers = $this->paginate($this->InternshipOffers);
+        }
+        
         $this->set(compact('internshipOffers'));
     }
 
@@ -41,16 +51,16 @@ class InternshipOffersController extends AppController {
         $internshipOffer = $this->InternshipOffers->get($id, [
             'contain' => []
         ]);
-        
+
         $id_official = $internshipOffer['id_official'];
         //trouver le id_official avec le id du internshipOffer
-          $officialsTable = TableRegistry::get('Officials');
-          $official = $officialsTable->get($id_official,[
-              'contain' => []
-          ]);
-          
-        
-        
+        $officialsTable = TableRegistry::get('Officials');
+        $official = $officialsTable->get($id_official, [
+            'contain' => []
+        ]);
+
+
+
 
         //ceci permet de transférer des données
         $this->set('internshipOffer', $internshipOffer);
@@ -69,19 +79,19 @@ class InternshipOffersController extends AppController {
             $internshipOffer = $this->InternshipOffers->patchEntity($internshipOffer, $this->request->getData());
 
             $id_user = $this->Auth->user('id');
-            
-            
-          //trouver le id_official avec le id_user
-          $officialsTable = TableRegistry::get('Officials');
-          $query = $officialsTable->find()->select(['id'])->where(['id_user' => $id_user ]); 
-  
-          foreach ($query as $off) {
-              $id_official = $off['id'];
-          }
 
-          //ajout des informations cachées dans le formulaire (id_user ET id_official)
-          $internshipOffer->id_user = $id_user;
-          $internshipOffer->id_official = $id_official;
+
+            //trouver le id_official avec le id_user
+            $officialsTable = TableRegistry::get('Officials');
+            $query = $officialsTable->find()->select(['id'])->where(['id_user' => $id_user]);
+
+            foreach ($query as $off) {
+                $id_official = $off['id'];
+            }
+
+            //ajout des informations cachées dans le formulaire (id_user ET id_official)
+            $internshipOffer->id_user = $id_user;
+            $internshipOffer->id_official = $id_official;
 
             if ($this->InternshipOffers->save($internshipOffer)) {
                 $this->Flash->success(__('The internship offer has been saved.'));
