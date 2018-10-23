@@ -73,6 +73,8 @@ class OfficialsController extends AppController {
         $official = $this->Officials->get($id, [
             'contain' => []
         ]);
+
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $official = $this->Officials->patchEntity($official, $this->request->getData(), [
                 // Added: Disable modification of user_id.
@@ -87,6 +89,19 @@ class OfficialsController extends AppController {
             $this->Flash->error(__('The official could not be saved. Please, try again.'));
         }
         $this->set(compact('official'));
+    }
+
+    public function miseAJour($id = null) {
+        $official = $this->Officials->get($id, [
+            'contain' => []
+        ]);
+
+        $official['verifier'] = 1;
+
+        if ($this->Officials->save($official)) {
+            return $this->redirect(['controller'=>'Emails', 'action'=>'verifierMiseAJour']);
+        }
+        $this->Flash->error(__('The official could not be saved. Please, try again.'));
     }
 
     public function modifier() {
@@ -123,7 +138,6 @@ class OfficialsController extends AppController {
         return $this->redirect(['action' => 'index']);
     }
 
-    
     public function isAuthorized($user) {
 
 

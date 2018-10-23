@@ -1,0 +1,3 @@
+Email Sent.
+
+<?= h($date) ?>
