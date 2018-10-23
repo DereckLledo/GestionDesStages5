@@ -10,10 +10,8 @@ class EmailsController extends AppController {
 
     public function index() {
 
-        $email = new Email('default');
+        //  $email->to('derecklledo@gmail.com')->subject('About')->send('My message -> MASTER');
 
-      //  $email->to('derecklledo@gmail.com')->subject('About')->send('My message -> MASTER');
-        $this->set(compact('date'));
     }
 
     public function verifierMiseAJour() {
@@ -22,20 +20,21 @@ class EmailsController extends AppController {
         //la date il y a 15 jours
         $date = date('Y.m.d', strtotime("-15 days"));
         $officialsTable = TableRegistry::get('Officials');
-        
+
         //query pour avoir les official + vieu de 15 jours et qui nont pas ete modifier
-        $query = $officialsTable->find()->where(['created <=' => $date,'verifier' => 0]);
+        $query = $officialsTable->find()->where(['created <=' => $date, 'verifier' => 0]);
         $email = new Email('default');
         foreach ($query as $off) {
             
-            $email->to($off['email'])->subject('Modifier vos informations')->send($message." ".$off['first_name']);
             
-            //on change le boolean pour ne pas 
+            $email->to($off['email'])->subject('Modifier vos informations')->send($message . " " . $off['first_name']);
+
+            // on change le boolean pour ne pas spammer l'official
             $off['verifier'] = 1;
-            return $this->redirect(['controller'=>'Officials', 'action'=>'miseAJour',$off['id']]);
-           // $email->to($off['email'])->subject('Modifier vos informations')->send($message + " " + $off["first_name"]);
+            $this->redirect(['controller'=>'Officials', 'action'=>'miseAJour',$off['id']]);
+            // $email->to($off['email'])->subject('Modifier vos informations')->send($message + " " + $off["first_name"]);
         }
-        
+        return $this->redirect(['controller' => 'Emails', 'action' => 'index']);
     }
 
     public function isAuthorized($user) {
