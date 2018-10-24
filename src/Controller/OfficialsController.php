@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Mailer\Email;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -91,17 +92,32 @@ class OfficialsController extends AppController {
         $this->set(compact('official'));
     }
 
-    public function miseAJour($id = null) {
-        $official = $this->Officials->get($id, [
-            'contain' => []
-        ]);
-
-        $official['verifier'] = 1;
-
-        if ($this->Officials->save($official)) {
-            return $this->redirect(['controller'=>'Emails', 'action'=>'verifierMiseAJour']);
-        }
-        $this->Flash->error(__('The official could not be saved. Please, try again.'));
+    public function miseAJour() {
+    	
+    	$message = "Modifier vos informations sur www.gestionstages.ca/users/login";
+    	//la date il y a 15 jours
+    	$date = date('Y.m.d', strtotime("-15 days"));
+    	
+    	//query pour avoir les official + vieu de 15 jours et qui nont pas ete modifier
+    	$query = $this->Officials->find()->where(['created <=' => $date, 'verifier' => 0]);
+    	$email = new Email('default');
+    	foreach ($query as $off) {
+    		
+    		
+    		$email->to($off['email'])->subject('Modifier vos informations')->send($message . " " . $off['first_name']);
+    		
+    		
+    		$official = $this->Officials->get($off['id'], [
+    				'contain' => []
+    		]);
+    		
+    		$official['verifier'] = 1;
+    		
+    		
+    		
+    		if ($this->Officials->save($official)) {
+    		}
+    	}
     }
 
     public function modifier() {
@@ -142,6 +158,11 @@ class OfficialsController extends AppController {
 
 
         $action = $this->request->getParam('action');
+        
+        
+        if (in_array($action, ['miseAJour'])) {
+        	return true;
+        }
 
         //coordinators ont le droit de modifier les officials
         if ($user['type'] == "1") {
@@ -174,6 +195,7 @@ class OfficialsController extends AppController {
         if (in_array($action, ['modifier']) && $user['type'] == "2") {
             return true;
         }
+        
 
         return false;
     }
