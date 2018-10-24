@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\Mailer\Email;
 
 /**
  * InternshipOffers Controller
@@ -149,7 +150,36 @@ class InternshipOffersController extends AppController {
 
         return $this->redirect(['action' => 'index']);
     }
+    
+    
+    public function postuler($idOffer = null, $idUser = null) {
+    	
+    	$email = new Email('default');	
+    	$internshipOffer = $this->InternshipOffers->get($idOffer);
+    	$official = null;
+    	$student = null;
+    	
 
+    	//trouver le id_official avec le id_user
+    	$officialsTable = TableRegistry::get('Officials');
+    	$query = $officialsTable->find()->where(['id' => $internshipOffer['id_official']]);
+    	
+    	foreach ($query as $off) {
+    		$official = $off;	
+    	}
+    	
+    	//trouver l'éleve avec le id_user
+    	$studentsTable = TableRegistry::get('Students');
+    	$query = $studentsTable->find()->where(['id_user' => $idUser]);
+    	foreach ($query as $stud) {
+    		$student = $stud;
+    	}
+    	$message = "L'élève ".$student['first_name']." ".$student['last_name']." a postulé pour votre offre: ".$internshipOffer['title'].". Vous pouvez le rejoindre sur ce email: ".$student['email'];
+    	$email->setTo($official['email'])->setSubject('Un élève est intéressé par votre offre de stage')->send($message);
+		
+    }
+    
+    
     public function isAuthorized($user) {
         $action = $this->request->getParam('action');
         if ($user['type'] == "1") {
@@ -158,7 +188,7 @@ class InternshipOffersController extends AppController {
             }
         } else if ($user['type'] == "0") {
             // The add and tags actions are always allowed to logged in users.
-            if (in_array($action, ['view'])) {
+            if (in_array($action, ['view', 'postuler'])) {
                 return true;
             }
         } else if ($user['type'] == "2") {

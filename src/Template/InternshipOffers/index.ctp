@@ -34,6 +34,7 @@
 
                 <td><?= $this->Number->format($internshipOffer->number_of_hour) ?></td>
                 <td><?= h($internshipOffer->category) ?></td>
+                
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $internshipOffer->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $internshipOffer->id]) ?>

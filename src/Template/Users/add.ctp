@@ -22,7 +22,11 @@
             
            $loguser = $this->request->getSession()->read('Auth.User');
             if ($loguser['type'] == "1") {
+            	
+            	echo $this->Form->control('email');
+            	
             	echo $this->Form->control('type', array('type'=>'select', 'options'=>$options, 'label'=>false, 'empty'=>'Category'));
+            	
             }
 
         ?>
