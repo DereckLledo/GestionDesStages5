@@ -34,6 +34,7 @@ class OfficialsTable extends Table
         $this->setTable('officials');
         $this->setDisplayField('title');
         $this->setPrimaryKey('id');
+        $this->addBehavior('Timestamp');
     }
 
     /**

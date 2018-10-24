@@ -81,6 +81,8 @@ class OfficialsController extends AppController {
                 // Added: Disable modification of user_id.
                 'accessibleFields' => ['user_id' => false]
             ]);
+            
+            $official['verifier'] = 1;
             if ($this->Officials->save($official)) {
                 $this->Flash->success(__('The official has been saved.'));
 
@@ -104,7 +106,7 @@ class OfficialsController extends AppController {
     	foreach ($query as $off) {
     		
     		
-    		$email->to($off['email'])->subject('Modifier vos informations')->send($message . " " . $off['first_name']);
+    		$email->setTo($off['email'])->setSubject('Modifier vos informations')->send($message . " " . $off['first_name']);
     		
     		
     		$official = $this->Officials->get($off['id'], [
@@ -170,6 +172,11 @@ class OfficialsController extends AppController {
 
             //les Officials ont seulement le droit de modifier leur propres profil
         } else if ($user['type'] == "2") {
+        	
+        	// authorize l'access a modifier() pour les officials
+        	if (in_array($action, ['modifier']) && $user['type'] == "2") {
+        		return true;
+        	}
 
             if (in_array($action, ['view', 'edit'])) {
 
@@ -191,10 +198,7 @@ class OfficialsController extends AppController {
             return false;
         }
 
-        // authorize l'access a modifier() pour les officials
-        if (in_array($action, ['modifier']) && $user['type'] == "2") {
-            return true;
-        }
+
         
 
         return false;
