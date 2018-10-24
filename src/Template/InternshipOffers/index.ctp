@@ -4,6 +4,7 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\InternshipOffer[]|\Cake\Collection\CollectionInterface $internshipOffers
  */
+$loguser = $this->request->getSession()->read( 'Auth.User' );
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
@@ -20,7 +21,11 @@
                 <th scope="col"><?= $this->Paginator->sort('remuneration') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('number_of_hour') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('category') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
+                <?php
+                if ($loguser) {
+                    echo "<th scope='col' class='actions'>Actions</th>";
+                }
+                ?>
             </tr>
         </thead>
         <tbody>
@@ -35,10 +40,17 @@
                 <td><?= $this->Number->format($internshipOffer->number_of_hour) ?></td>
                 <td><?= h($internshipOffer->category) ?></td>
                 
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $internshipOffer->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $internshipOffer->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $internshipOffer->id], ['confirm' => __('Are you sure you want to delete # {0}?', $internshipOffer->id)]) ?>
+                    <?php 
+                        
+                        if ($loguser) {
+                            echo '<td class="actions">'; 
+                            echo $this->Html->link(__('View'), ['action' => 'view', $internshipOffer->id]);
+                        };
+                        if ($loguser['type'] == 1 || $loguser['type'] == 2) {
+                            echo $this->Html->link(__(' Edit'), ['action' => 'edit', $internshipOffer->id]);
+                            echo $this->Form->postLink(__(' Delete'), ['action' => 'delete', $internshipOffer->id], ['confirm' => __('Are you sure you want to delete # {0}?', $internshipOffer->id)]);
+                        };
+                    ?> 
                 </td>
             </tr>
             <?php endforeach; ?>
