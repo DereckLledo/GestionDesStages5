@@ -38,6 +38,7 @@ class Student extends Entity
         'email' => true,
         'other_detail' => true,
         'note' => true,
-        'actif' => true
+        'actif' => true,
+        'internshipOffers' => true
     ];
 }

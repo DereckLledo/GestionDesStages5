@@ -55,6 +55,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                                         $type = "";
                                         
 					if ($loguser['type'] == 0) {
+                                                echo $this->Html->link( 'My applications  ' , ['controller'=>'Students', 'action'=>'findApplications'] );
+                                                echo "</li><li>";
 						$rank = __('Student - ');
                                                 $type = "Students";
                                                 

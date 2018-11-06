@@ -31,13 +31,12 @@ class InternshipOffersController extends AppController {
 
         //SI le user connecté est un official(employeur), on lui affiche seulement ses propres internshipOffers
         if ($type == 2) {
-            $query = $this->InternshipOffers->find()->where(['id_user' =>  $id_user]);
+            $query = $this->InternshipOffers->find()->where(['id_user' => $id_user]);
             $internshipOffers = $this->paginate($query);
-
         } else {
             $internshipOffers = $this->paginate($this->InternshipOffers);
         }
-        
+
         $this->set(compact('internshipOffers'));
     }
 
@@ -50,7 +49,7 @@ class InternshipOffersController extends AppController {
      */
     public function view($id = null) {
         $internshipOffer = $this->InternshipOffers->get($id, [
-            'contain' => []
+            'contain' => ['Students']
         ]);
 
         $id_official = $internshipOffer['id_official'];
@@ -150,42 +149,63 @@ class InternshipOffersController extends AppController {
 
         return $this->redirect(['action' => 'index']);
     }
-    
-    
-    public function postuler($idOffer = null, $idUser = null) {
-    	
-    	$email = new Email('default');	
-    	$internshipOffer = $this->InternshipOffers->get($idOffer);
-    	$official = null;
-    	$student = null;
-    	
 
-    	//trouver le id_official avec le id_user
-    	$officialsTable = TableRegistry::get('Officials');
-    	$query = $officialsTable->find()->where(['id' => $internshipOffer['id_official']]);
-    	
-    	foreach ($query as $off) {
-    		$official = $off;	
-    	}
-    	
-    	//trouver l'éleve avec le id_user
-    	$studentsTable = TableRegistry::get('Students');
-    	$query = $studentsTable->find()->where(['id_user' => $idUser]);
-    	foreach ($query as $stud) {
-    		$student = $stud;
-    	}
-    	$message = "L'élève ".$student['first_name']." ".$student['last_name']." a postulé pour votre offre: ".$internshipOffer['title'].". Vous pouvez le rejoindre sur ce email: ".$student['email'];
-    	$email->setTo($official['email'])->setSubject('Un élève est intéressé par votre offre de stage')->send($message);
-		
+    public function postuler($idOffer = null, $idUser = null) {
+
+        $email = new Email('default');
+        $internshipOffer = $this->InternshipOffers->get($idOffer);
+        $official = null;
+        $student = null;
+
+
+        //trouver le id_official avec le id_official de l'offre
+        $officialsTable = TableRegistry::get('Officials');
+        $query = $officialsTable->find()->where(['id' => $internshipOffer['id_official']]);
+
+        foreach ($query as $off) {
+            $official = $off;
+        }
+
+        //trouver l'éleve avec le id_user
+        $studentsTable = TableRegistry::get('Students');
+        $query = $studentsTable->find()->where(['id_user' => $idUser]);
+        foreach ($query as $stud) {
+            $student = $stud;
+        }
+
+        $this->InternshipOffers->Students->link($internshipOffer, [$student]);
+
+        $message = "L'élève " . $student['first_name'] . " " . $student['last_name'] . " a postulé pour votre offre: " . $internshipOffer['title'] . ". Vous pouvez le rejoindre sur ce email: " . $student['email'];
+        $email->setTo($official['email'])->setSubject('Un élève est intéressé par votre offre de stage')->send($message);
+
+        $this->Flash->success(__('You successfully applied for this offer.'));
+
+        return $this->redirect(['controller' => 'students', 'action' => 'appliedOffers', $student->id]);
     }
-    
-    
+
+    public function notifierEtudiants($idOffer = null, $idUser = null) {
+        $internshipOffer = $this->InternshipOffers->get($idOffer);
+        //trouver l'éleve avec le id_user
+        $studentsTable = TableRegistry::get('Students');
+        $query = $studentsTable->find('all');
+
+        foreach ($query as $student) {
+            if (isset($student['email'])) {
+
+                //si il y a un email et que ce email est valide on envoit un message
+                if (filter_var($student['email'], FILTER_VALIDATE_EMAIL)) {
+                    $email = new Email('default');
+                    $message = "Bonjour " . $student['first_name'] . " " . $student['last_name'] . ". Voici une offre de stage intéressante pour vous : " . $internshipOffer['title'] . ". Allez voir cette offre dans la liste des stages disponibles. Merci";
+                    $email->setTo($student['email'])->setSubject('Veuillez considérer cette offre de stage!')->send($message);
+                }
+            }
+        }
+    }
+
     public function isAuthorized($user) {
         $action = $this->request->getParam('action');
         if ($user['type'] == "1") {
-            if (in_array($action, ['view'])) {
-                return true;
-            }
+            return true;
         } else if ($user['type'] == "0") {
             // The add and tags actions are always allowed to logged in users.
             if (in_array($action, ['view', 'postuler'])) {

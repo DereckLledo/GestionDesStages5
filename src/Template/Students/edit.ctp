@@ -34,3 +34,29 @@
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
 </div>
+
+
+
+    <div class="IntershipOffers">
+        <h4><?= __('Applied offers') ?></h4>
+        <?php if (!empty($student->internshipOffers)): ?>
+        <table cellpadding="0" cellspacing="0">
+            <tr>
+               
+                <th scope="col"><?= __('title') ?></th>
+
+                
+                
+            </tr>
+            <?php foreach ($student->internshipOffers as $internshipOffer): ?>
+            <tr>
+               
+                <td><?= h($internshipOffer->title) ?></td>
+
+             
+            
+            </tr>
+            <?php endforeach; ?>
+        </table>
+        <?php endif; ?>
+    </div>

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
@@ -15,8 +16,7 @@ use Cake\ORM\Entity;
  * @property float $number_of_hour
  * @property string $category
  */
-class InternshipOffer extends Entity
-{
+class InternshipOffer extends Entity {
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -34,6 +34,8 @@ class InternshipOffer extends Entity
         'task' => true,
         'remuneration' => true,
         'number_of_hour' => true,
-        'category' => true
+        'category' => true,
+        'students' => true
     ];
+
 }

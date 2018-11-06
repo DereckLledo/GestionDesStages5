@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -18,8 +19,7 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Student[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Student findOrCreate($search, callable $callback = null, $options = [])
  */
-class StudentsTable extends Table
-{
+class StudentsTable extends Table {
 
     /**
      * Initialize method
@@ -27,13 +27,18 @@ class StudentsTable extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
-    {
+    public function initialize(array $config) {
         parent::initialize($config);
 
         $this->setTable('students');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->belongsToMany('InternshipOffers', [
+            'foreignKey' => 'student_id',
+            'targetForeignKey' => 'internshipOffer_id',
+            'joinTable' => 'internshipOffers_students'
+        ]);
     }
 
     /**
@@ -42,60 +47,58 @@ class StudentsTable extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
-    {
+    public function validationDefault(Validator $validator) {
 //         $validator
 //             ->integer('id')
 //             ->allowEmpty('id', 'create');
-
 //         $validator
 //             ->integer('id_user')
 //             ->requirePresence('id_user', 'create')
 //             ->notEmpty('id_user');
 
         $validator
-            ->integer('admission_number')
-            ->requirePresence('admission_number', 'create')
-            ->notEmpty('admission_number');
+                ->integer('admission_number')
+                ->requirePresence('admission_number', 'create')
+                ->notEmpty('admission_number');
 
         $validator
-            ->scalar('first_name')
-            ->maxLength('first_name', 255)
-            ->requirePresence('first_name', 'create')
-            ->notEmpty('first_name');
+                ->scalar('first_name')
+                ->maxLength('first_name', 255)
+                ->requirePresence('first_name', 'create')
+                ->notEmpty('first_name');
 
         $validator
-            ->scalar('last_name')
-            ->maxLength('last_name', 255)
-            ->requirePresence('last_name', 'create')
-            ->notEmpty('last_name');
+                ->scalar('last_name')
+                ->maxLength('last_name', 255)
+                ->requirePresence('last_name', 'create')
+                ->notEmpty('last_name');
 
         $validator
-            ->scalar('phone')
-            ->maxLength('phone', 255)
-            ->requirePresence('phone', 'create')
-            ->notEmpty('phone');
+                ->scalar('phone')
+                ->maxLength('phone', 255)
+                ->requirePresence('phone', 'create')
+                ->notEmpty('phone');
 
         $validator
-            ->email('email')
-            ->requirePresence('email', 'create')
-            ->notEmpty('email');
+                ->email('email')
+                ->requirePresence('email', 'create')
+                ->notEmpty('email');
 
         $validator
-            ->scalar('other_detail')
-            ->requirePresence('other_detail', 'create')
-            ->notEmpty('other_detail');
+                ->scalar('other_detail')
+                ->requirePresence('other_detail', 'create')
+                ->notEmpty('other_detail');
 
         $validator
-            ->scalar('note')
-            ->maxLength('note', 255)
-            ->requirePresence('note', 'create')
-            ->notEmpty('note');
+                ->scalar('note')
+                ->maxLength('note', 255)
+                ->requirePresence('note', 'create')
+                ->notEmpty('note');
 
         $validator
-            ->boolean('actif')
-            ->requirePresence('actif', 'create')
-            ->notEmpty('actif');
+                ->boolean('actif')
+                ->requirePresence('actif', 'create')
+                ->notEmpty('actif');
 
         return $validator;
     }
@@ -107,10 +110,10 @@ class StudentsTable extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
-    {
+    public function buildRules(RulesChecker $rules) {
         $rules->add($rules->isUnique(['email']));
 
         return $rules;
     }
+
 }

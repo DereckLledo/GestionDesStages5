@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\Mailer\Email;
 
 /**
  * Students Controller
@@ -20,7 +21,7 @@ class StudentsController extends AppController {
      * @return \Cake\Http\Response|void
      */
     public function index() {
-        $students = $this->paginate($this->Students);
+        $students = $this->paginate($this->Students->find('all'));
 
         $this->set(compact('students'));
     }
@@ -34,7 +35,8 @@ class StudentsController extends AppController {
      */
     public function view($id = null) {
         $student = $this->Students->get($id, [
-            'contain' => []
+            //permet de voir les internshipoffers auquel il a postuler
+            'contain' => ['InternshipOffers']
         ]);
 
         $this->set('student', $student);
@@ -76,7 +78,7 @@ class StudentsController extends AppController {
     public function edit($id = null) {
 
         $student = $this->Students->get($id, [
-            'contain' => []
+            'contain' => ['InternshipOffers']
         ]);
 
 
@@ -95,8 +97,8 @@ class StudentsController extends AppController {
     public function modifier() {
         //id du user connecté
         $id_user = $this->Auth->user('id');
-        
-        
+
+
         $studentsTable = TableRegistry::get('Students');
         $query = $studentsTable->find()->select(['id'])->where(['id_user' => $id_user]);
 
@@ -105,6 +107,21 @@ class StudentsController extends AppController {
         }
         //redirection
         return $this->redirect('/Students/Edit/' . $id_student);
+    }
+    
+        public function findApplications() {
+        //id du user connecté
+        $id_user = $this->Auth->user('id');
+
+
+        $studentsTable = TableRegistry::get('Students');
+        $query = $studentsTable->find()->select(['id'])->where(['id_user' => $id_user]);
+
+        foreach ($query as $off) {
+            $id_student = $off['id'];
+        }
+        
+        return $this->redirect('/Students/Applied-offers/'.$id_student);
     }
 
     /**
@@ -126,6 +143,55 @@ class StudentsController extends AppController {
         return $this->redirect(['action' => 'index']);
     }
 
+    public function removeApplication($idStudent = null, $idOffer = null) {
+
+        $student = $this->Students->get($idStudent, [
+            //permet de voir les internshipoffers auquel il a postuler
+            'contain' => ['InternshipOffers']
+        ]);
+
+
+        $offer;
+        //on trouve l'offre qui est relier avec la id
+        foreach ($student->internship_offers as $internshipOffer) {
+            if ($internshipOffer->id == $idOffer) {
+                $offer = $internshipOffer;
+            }
+        }
+
+        //on retire la liaison entre les tables Students et internshipOffer
+        $this->Students->InternshipOffers->unlink($student, [$offer]);
+
+        //on trouve l'official de l'offre
+    	$officialsTable = TableRegistry::get('Officials');
+    	$query = $officialsTable->find()->where(['id' => $offer['id_official']]);
+    	
+    	foreach ($query as $off) {
+    		$official = $off;	
+    	}
+        
+        
+        //envoyer un email pour informer l'employeur du retrait de l'application.
+        $email = new Email('default');	
+        $message = "L'élève ".$student['first_name']." ".$student['last_name']." a retiré son application pour votre offre: ".$internshipOffer['title'].". Vous pouvez le rejoindre sur ce email: ".$student['email'];
+    	$email->setTo($official['email'])->setSubject('Un élève a retiré son application pour une offre de stage')->send($message);
+        
+        
+        $this->Flash->success(__('You successfully removed your application named '.$offer->title.'.'));
+
+        return $this->redirect(['action' => 'appliedOffers', $student->id]);
+    }
+
+    public function appliedOffers($id = null) {
+
+        $student = $this->Students->get($id, [
+            //permet de voir les internshipoffers auquel il a postuler
+            'contain' => ['InternshipOffers']
+        ]);
+
+        $this->set('student', $student);
+    }
+
     public function isAuthorized($user) {
 
 
@@ -137,8 +203,8 @@ class StudentsController extends AppController {
 
             //les élèves ont seulement le droit de modifier leur propres profil
         } else if ($user['type'] == "0") {
-         
-            if (in_array($action, ['view', 'edit'])) {
+
+            if (in_array($action, ['view', 'edit', 'appliedOffers', 'removeApplication'])) {
 
                 $id_student = $this->request->getParam('pass.0');
                 $id_user = $user['id'];
@@ -159,7 +225,7 @@ class StudentsController extends AppController {
         }
 
         // authorize l'access a modifier pour les étudiants
-        if (in_array($action, ['modifier']) && $user['type'] == "0") {
+        if (in_array($action, ['modifier','findApplications']) && $user['type'] == "0") {
             return true;
         }
 
