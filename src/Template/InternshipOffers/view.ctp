@@ -4,6 +4,8 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\InternshipOffer $internshipOffer
  */
+use Cake\ORM\TableRegistry;
+
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
@@ -55,7 +57,25 @@
       if ($loguser['type'] == 0) {
       	$user = $this->request->getSession()->read( 'Auth.User' );
      	$idUser = $user['id'];
-     	echo $this->Form->postButton('Postuler', ['controller' => 'internshipOffers', 'action' => 'postuler', $this->request->getParam('pass.0'),$idUser]);
+
+     	$students = TableRegistry::get('Students');
+     	$student = $students->find()->where(['id_user' => $idUser])->first();
+     	$studentId = $student['id'];
+     	
+     	$internshipOffersStudentsTable = TableRegistry::get('InternshipOffersStudents');
+     	$queryOffers = $internshipOffersStudentsTable->find()->where(['student_id' => $studentId]);
+
+     	$find = false;
+     	foreach ($queryOffers as $offer) {
+     		if ($offer['internshipOffer_id'] == $this->request->getParam('pass.0') || $find) {
+     			$find = true;
+     		}
+     	}
+     	if ($find) {
+     		echo $this->Form->postButton('Retirer ma candidature', ['controller' => 'students', 'action' => 'removeApplication',$studentId, $this->request->getParam('pass.0')], ['confirm' => __('Are you sure you want to delete your application ?')]);
+     	} else {
+     		echo $this->Form->postButton('Postuler', ['controller' => 'internshipOffers', 'action' => 'postuler', $this->request->getParam('pass.0'),$idUser]);
+     	}
 
       } else if ($loguser['type'] == 1) {
          $user = $this->request->getSession()->read( 'Auth.User' );
