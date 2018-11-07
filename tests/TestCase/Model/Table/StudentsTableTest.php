@@ -38,6 +38,59 @@ class StudentsTableTest extends TestCase
         $config = TableRegistry::getTableLocator()->exists('Students') ? [] : ['className' => StudentsTable::class];
         $this->Students = TableRegistry::getTableLocator()->get('Students', $config);
     }
+    
+    
+    //trouver les eleves actifes
+    public function testFindActif() {
+    	$query = $this->Students->find()->where(['actif' => true]);
+    	$this->assertInstanceOf('Cake\ORM\Query', $query);
+    	$result = $query->hydrate(false)->toArray();
+    	$expected = [
+    			[
+    					'id' => 3,
+    					'id_user' => 3,
+    					'admission_number' => 24,
+    					'first_name' => 'Dereck',
+    					'last_name' => 'lledo',
+    					'phone' => 'Lorem ipsum dolor sit amet',
+    					'email' => 'derecklledo@gmail.com',
+    					'other_detail' => 'Loree ut  duis vestibulum nunc mattis convallis.',
+    					'note' => 'Lorem ipsum dolor sit amet',
+    					'actif' => true
+    			],
+    			
+    	];
+    	
+    	$this->assertEquals($expected, $result);
+    }
+    
+    
+    //trouver un eleve selon son email
+    public function testFindEmail() {
+    	$query = $this->Students->find()->where(['email' => 'derecklledo@gmail.com']);
+    	$this->assertInstanceOf('Cake\ORM\Query', $query);
+    	$result = $query->hydrate(false)->toArray();
+    	$expected = [
+    			[
+    					'id' => 3,
+    					'id_user' => 3,
+    					'admission_number' => 24,
+    					'first_name' => 'Dereck',
+    					'last_name' => 'lledo',
+    					'phone' => 'Lorem ipsum dolor sit amet',
+    					'email' => 'derecklledo@gmail.com',
+    					'other_detail' => 'Loree ut  duis vestibulum nunc mattis convallis.',
+    					'note' => 'Lorem ipsum dolor sit amet',
+    					'actif' => true
+    			],
+    			
+    	];
+    	
+    	$this->assertEquals($expected, $result);
+    }
+    
+    
+    
 
     /**
      * tearDown method

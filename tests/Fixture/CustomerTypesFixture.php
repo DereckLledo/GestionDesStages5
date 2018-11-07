@@ -55,7 +55,6 @@ class CustomerTypesFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => 1,
                 'id_internship_place' => 1,
                 'cdj' => 1,
                 'hopital' => 1,

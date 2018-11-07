@@ -56,7 +56,6 @@ class CoordinatorsFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => 1,
                 'id_user' => 1,
                 'appellation' => 'Lorem ipsum dolor sit amet',
                 'first_name' => 'Lorem ipsum dolor sit amet',
@@ -73,6 +72,23 @@ class CoordinatorsFixture extends TestFixture
                 'cell_phone' => 'Lorem ipsum dolor sit amet',
                 'fax' => 'Lorem ipsum dolor sit amet'
             ],
+        		[
+        				'id_user' => 1,
+        				'appellation' => '2Lorem ipsum dolor sit amet',
+        				'first_name' => 'Lorem ipsum dolor sit amet',
+        				'last_name' => 'Lorem ipsum dolor sit amet',
+        				'title' => 'Lorem ipsum dolor sit amet',
+        				'place' => 'Lorem ipsum dolor sit amet',
+        				'address' => 'Lorem ipsum dolor sit amet',
+        				'city' => 'Lorem ipsum dolor sit amet',
+        				'province' => 'Lorem ipsum dolor sit amet',
+        				'postal_code' => 'Lorem ipsum dolor sit amet',
+        				'email' => 'Lorem ipsum dolor sit amet',
+        				'phone' => 'Lorem ipsum dolor sit amet',
+        				'extension' => 'Lorem ipsum dolor sit amet',
+        				'cell_phone' => 'Lorem ipsum dolor sit amet',
+        				'fax' => 'Lorem ipsum dolor sit amet'
+        		],
         ];
         parent::init();
     }

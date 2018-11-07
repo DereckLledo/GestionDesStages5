@@ -56,20 +56,17 @@ class OfficialsTable extends Table
 
         $validator
             ->scalar('appellation')
-            ->requirePresence('appellation', 'create')
-            ->notEmpty('appellation');
+            ->allowEmpty('appellation');
 
         $validator
             ->scalar('first_name')
             ->maxLength('first_name', 255)
-            ->requirePresence('first_name', 'create')
-            ->notEmpty('first_name');
+            ->allowEmpty('first_name');
 
         $validator
             ->scalar('last_name')
             ->maxLength('last_name', 255)
-            ->requirePresence('last_name', 'create')
-            ->notEmpty('last_name');
+            ->allowEmpty('last_name');
 
         $validator
             ->scalar('title')
@@ -102,8 +99,7 @@ class OfficialsTable extends Table
 
         $validator
             ->email('email')
-            ->requirePresence('email', 'create')
-            ->notEmpty('email');
+            ->allowEmpty('email');
 
         $validator
             ->scalar('phone')

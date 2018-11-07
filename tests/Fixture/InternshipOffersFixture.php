@@ -48,15 +48,35 @@ class InternshipOffersFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => 1,
+            	'id' => 1,
                 'id_official' => 1,
-                'title' => 'Lorem ipsum dolor sit amet',
+                'title' => 'Soutien informatique',
                 'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
                 'task' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-                'remuneration' => 1,
+                'remuneration' => true,
                 'number_of_hour' => 1,
                 'category' => 'Lorem ipsum dolor sit amet'
             ],
+        		[
+        				'id' => 2,
+        				'id_official' => 1,
+        				'title' => '2Lorem ipsum dolor sit amet',
+        				'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+        				'task' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+        				'remuneration' => true,
+        				'number_of_hour' => 1,
+        				'category' => 'Lorem ipsum dolor sit amet'
+        		],
+        		[
+        				'id' => 3,
+        				'id_official' => 1,
+        				'title' => '3Lorem ipsum dolor sit amet',
+        				'description' => 'Lorem ipsum.',
+        				'task' => 'Lorem ipsumsollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+        				'remuneration' => false,
+        				'number_of_hour' => 1,
+        				'category' => 'Lorem ipsum dolor sit amet'
+        		],
         ];
         parent::init();
     }

@@ -16,7 +16,8 @@ class CoordinatorsControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.coordinators'
+        'app.coordinators',
+		'app.users'
     ];
 
     /**
@@ -26,46 +27,48 @@ class CoordinatorsControllerTest extends IntegrationTestCase
      */
     public function testIndex()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+    	//verifier la redirection si on est pas authoriser
+    	$this->get ( '/coordinators' );
+    	$this->assertRedirectContains('/users/login');
     }
 
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+//     /**
+//      * Test view method
+//      *
+//      * @return void
+//      */
+//     public function testView()
+//     {
+//         $this->markTestIncomplete('Not implemented yet.');
+//     }
 
-    /**
-     * Test add method
-     *
-     * @return void
-     */
-    public function testAdd()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+//     /**
+//      * Test add method
+//      *
+//      * @return void
+//      */
+//     public function testAdd()
+//     {
+//         $this->markTestIncomplete('Not implemented yet.');
+//     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+//     /**
+//      * Test edit method
+//      *
+//      * @return void
+//      */
+//     public function testEdit()
+//     {
+//         $this->markTestIncomplete('Not implemented yet.');
+//     }
 
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+//     /**
+//      * Test delete method
+//      *
+//      * @return void
+//      */
+//     public function testDelete()
+//     {
+//         $this->markTestIncomplete('Not implemented yet.');
+//     }
 }

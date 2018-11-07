@@ -46,7 +46,6 @@ class InternshipPlacesFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => 1,
                 'name' => 'Lorem ipsum dolor sit amet',
                 'type' => 'Lorem ipsum dolor sit amet',
                 'address' => 'Lorem ipsum dolor sit amet',

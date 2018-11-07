@@ -50,7 +50,7 @@ class StudentsFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => 1,
+
                 'id_user' => 1,
                 'admission_number' => 1,
                 'first_name' => 'Lorem ipsum dolor sit amet',
@@ -59,8 +59,32 @@ class StudentsFixture extends TestFixture
                 'email' => 'Lorem ipsum dolor sit amet',
                 'other_detail' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
                 'note' => 'Lorem ipsum dolor sit amet',
-                'actif' => 1
+                'actif' => false
             ],
+        	[
+
+        				'id_user' => 2,
+        				'admission_number' => 2,
+        				'first_name' => 'Nicolas',
+        				'last_name' => 'Lorem ipsum dolor sit amet',
+        				'phone' => 'Lorem ipsum dolor sit amet',
+        				'email' => 'Lorem ipsum dolor sit amet',
+        				'other_detail' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+        				'note' => 'Lorem ipsum dolor sit amet',
+        				'actif' => false
+        	],
+        		[
+        				
+        				'id_user' => 3,
+        				'admission_number' => 24,
+        				'first_name' => 'Dereck',
+        				'last_name' => 'lledo',
+        				'phone' => 'Lorem ipsum dolor sit amet',
+        				'email' => 'derecklledo@gmail.com',
+        				'other_detail' => 'Loree ut  duis vestibulum nunc mattis convallis.',
+        				'note' => 'Lorem ipsum dolor sit amet',
+        				'actif' => true
+        		],
         ];
         parent::init();
     }

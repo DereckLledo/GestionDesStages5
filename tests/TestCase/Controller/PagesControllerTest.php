@@ -34,10 +34,12 @@ class PagesControllerTest extends IntegrationTestCase
      */
     public function testMultipleGet()
     {
-        $this->get('/');
-        $this->assertResponseOk();
-        $this->get('/');
-        $this->assertResponseOk();
+    	//        $this->get('/');
+    	$this->get('/pages/home');
+    	$this->assertResponseOk();
+    	//        $this->get('/');
+    	$this->get('/pages/home');
+    	$this->assertResponseOk();
     }
 
     /**
