@@ -64,6 +64,7 @@ class UsersController extends AppController {
                     $studentsTable = TableRegistry::get('Students');
                     $student = $studentsTable->newEntity();
                     $student->id_user = $user['id'];
+                    $student->email =$this->request->getData('email');
                     $studentsTable->save($student);
                 } else if ($user['type'] == 1) {
                     $coordinatorsTable = TableRegistry::get('Coordinators');

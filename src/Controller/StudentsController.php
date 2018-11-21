@@ -173,7 +173,7 @@ class StudentsController extends AppController {
         
         //envoyer un email pour informer l'employeur du retrait de l'application.
         $email = new Email('default');	
-        $message = "L'élève ".$student['first_name']." ".$student['last_name']." a retiré son application pour votre offre: ".$internshipOffer['title'].". Vous pouvez le rejoindre sur ce email: ".$student['email'];
+        $message = "L'élève ".$student['first_name']." ".$student['last_name']." a retiré son application pour votre offre: ".$offer['title'].". Vous pouvez le rejoindre sur ce email: ".$student['email'];
     	$email->setTo($official['email'])->setSubject('Un élève a retiré son application pour une offre de stage')->send($message);
         
         
