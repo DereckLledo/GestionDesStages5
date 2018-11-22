@@ -34,8 +34,35 @@ class InternshipOffersController extends AppController {
             $query = $this->InternshipOffers->find()->where(['id_user' => $id_user]);
             $internshipOffers = $this->paginate($query);
         } else {
-            $internshipOffers = $this->paginate($this->InternshipOffers);
+
+            //on affiche tous les stages ACTIF
+            $query = $this->InternshipOffers->find()->where(['actif' => 1]);
+            $internshipOffers = $this->paginate($query);
         }
+
+        $this->set(compact('internshipOffers'));
+    }
+
+    /**
+     * Index method
+     *
+     * Affiche la liste de tous les stages, actif ET inactif
+     */
+    public function allOffers() {
+        $internshipOffers = $this->paginate($this->InternshipOffers);
+        $this->set(compact('internshipOffers'));
+    }
+
+    /**
+     * Index method
+     *
+     * Affiche la liste des stages inactif
+     */
+    public function inactif() {
+        
+        $query = $this->InternshipOffers->find()->where(['actif' => 0]);
+        $internshipOffers = $this->paginate($query);
+
 
         $this->set(compact('internshipOffers'));
     }

@@ -1,9 +1,12 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\InternshipOffer $internshipOffer
  */
+$this->prepend('side-nav', 'ce contenu va au-dessus de la sidebar');
 ?>
+
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>

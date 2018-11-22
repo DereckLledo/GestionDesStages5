@@ -85,9 +85,41 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 					
 				}
 			?></li>
+
                 </ul>
+
+                  <?php  if ($loguser['type'] == 1){
+                        echo "<ul class='left'>";
+                                 echo "<li>";
+                                 echo $this->Html->link('Tous les stages', ['controller'=>'InternshipOffers', 'action'=>'allOffers'] );
+                                 echo "</li><li>";
+                                 echo $this->Html->link('Stages actifs', ['controller'=>'InternshipOffers', 'action'=>'index'] );
+                                 echo "</li><li>";
+                                 echo $this->Html->link('Stages inactifs', ['controller'=>'InternshipOffers', 'action'=>'inactif'] );
+                                 echo "</li><li>";
+                                 echo $this->Html->link('Étudiants sans stage', ['controller'=>'Students', 'action'=>'noInternship'] );
+                                 echo "</li><li>";
+                                 echo $this->Html->link('Étudiants avec stage', ['controller'=>'Students', 'action'=>'withInternship'] );
+                                 echo "</li>";
+                                 
+                        echo "</ul>";
+                      
+                            $rank = __('Coordinator - ');
+                            $texteAdd = "Add a User";
+                            $type = "Coordinators";
+                  } else if (!$loguser){
+                        echo "<ul class='left'>";
+                                echo "<li>";
+                                echo $this->Html->link('Récupérer mot de passe', ['controller'=>'Users', 'action'=>'recover'] );
+                                echo "</li>";
+                        echo "</ul>";
+                                 
+                  }
+                  ?>
+
             </div>
         </nav>
+
     <?= $this->Flash->render() ?>
         <div class="container clearfix">
         <?= $this->fetch('content') ?>

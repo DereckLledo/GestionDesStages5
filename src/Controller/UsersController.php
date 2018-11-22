@@ -18,7 +18,7 @@ class UsersController extends AppController {
 
     public function initialize() {
         parent::initialize();
-        $this->Auth->allow(['logout', 'add']);
+        $this->Auth->allow(['logout', 'add', 'recover']);
     }
 
     /**
@@ -56,7 +56,7 @@ class UsersController extends AppController {
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
-            
+
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
@@ -64,7 +64,7 @@ class UsersController extends AppController {
                     $studentsTable = TableRegistry::get('Students');
                     $student = $studentsTable->newEntity();
                     $student->id_user = $user['id'];
-                    $student->email =$this->request->getData('email');
+                    $student->email = $this->request->getData('email');
                     $studentsTable->save($student);
                 } else if ($user['type'] == 1) {
                     $coordinatorsTable = TableRegistry::get('Coordinators');
@@ -75,7 +75,7 @@ class UsersController extends AppController {
                     $officialsTable = TableRegistry::get('Officials');
                     $official = $officialsTable->newEntity();
                     $official->id_user = $user['id'];
-                    $official->email =$this->request->getData('email');
+                    $official->email = $this->request->getData('email');
                     $officialsTable->save($official);
                 }
 
@@ -111,7 +111,6 @@ class UsersController extends AppController {
         }
         $this->set(compact('user'));
     }
-
 
     /**
      * Delete method
@@ -152,6 +151,24 @@ class UsersController extends AppController {
         $this->Flash->success('You are now logged out.');
         return $this->redirect($this->Auth->logout());
     }
+
+    
+        public function recover() {
+        if ($this->request->is('post')) {
+            /*
+            //prendre la donnée du email
+            if (//email) {
+                //envoyer un email si il est présent dans la liste de users
+               // return $this->redirect("\\");
+            }
+             * */
+             
+            $this->Flash->error('Your username or password is incorrect.');
+        }
+    }
+    
+    
+    
 
     public function isAuthorized($user) {
 

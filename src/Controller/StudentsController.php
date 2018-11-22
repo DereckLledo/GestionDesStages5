@@ -26,6 +26,19 @@ class StudentsController extends AppController {
         $this->set(compact('students'));
     }
 
+    public function noInternship() {
+        
+        $students = $this->paginate($this->Students->find('all')->where(['internship' => false]));
+        $this->set(compact('students'));
+        
+    }
+
+    public function withInternship() {
+        
+        $students = $this->paginate($this->Students->find('all')->where(['internship' => true]));
+        $this->set(compact('students'));
+    }
+
     /**
      * View method
      *
@@ -108,8 +121,8 @@ class StudentsController extends AppController {
         //redirection
         return $this->redirect('/Students/Edit/' . $id_student);
     }
-    
-        public function findApplications() {
+
+    public function findApplications() {
         //id du user connecté
         $id_user = $this->Auth->user('id');
 
@@ -120,8 +133,8 @@ class StudentsController extends AppController {
         foreach ($query as $off) {
             $id_student = $off['id'];
         }
-        
-        return $this->redirect('/Students/Applied-offers/'.$id_student);
+
+        return $this->redirect('/Students/Applied-offers/' . $id_student);
     }
 
     /**
@@ -163,21 +176,21 @@ class StudentsController extends AppController {
         $this->Students->InternshipOffers->unlink($student, [$offer]);
 
         //on trouve l'official de l'offre
-    	$officialsTable = TableRegistry::get('Officials');
-    	$query = $officialsTable->find()->where(['id' => $offer['id_official']]);
-    	
-    	foreach ($query as $off) {
-    		$official = $off;	
-    	}
-        
-        
+        $officialsTable = TableRegistry::get('Officials');
+        $query = $officialsTable->find()->where(['id' => $offer['id_official']]);
+
+        foreach ($query as $off) {
+            $official = $off;
+        }
+
+
         //envoyer un email pour informer l'employeur du retrait de l'application.
-        $email = new Email('default');	
-        $message = "L'élève ".$student['first_name']." ".$student['last_name']." a retiré son application pour votre offre: ".$offer['title'].". Vous pouvez le rejoindre sur ce email: ".$student['email'];
-    	$email->setTo($official['email'])->setSubject('Un élève a retiré son application pour une offre de stage')->send($message);
-        
-        
-        $this->Flash->success(__('You successfully removed your application named '.$offer->title.'.'));
+        $email = new Email('default');
+        $message = "L'élève " . $student['first_name'] . " " . $student['last_name'] . " a retiré son application pour votre offre: " . $offer['title'] . ". Vous pouvez le rejoindre sur ce email: " . $student['email'];
+        $email->setTo($official['email'])->setSubject('Un élève a retiré son application pour une offre de stage')->send($message);
+
+
+        $this->Flash->success(__('You successfully removed your application named ' . $offer->title . '.'));
 
         return $this->redirect(['action' => 'appliedOffers', $student->id]);
     }
@@ -225,7 +238,7 @@ class StudentsController extends AppController {
         }
 
         // authorize l'access a modifier pour les étudiants
-        if (in_array($action, ['modifier','findApplications']) && $user['type'] == "0") {
+        if (in_array($action, ['modifier', 'findApplications']) && $user['type'] == "0") {
             return true;
         }
 
