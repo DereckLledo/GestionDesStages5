@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
+use Cake\Mailer\Email;
 
 /**
  * Users Controller
@@ -152,23 +153,48 @@ class UsersController extends AppController {
         return $this->redirect($this->Auth->logout());
     }
 
-    
-        public function recover() {
+    public function recover() {
+
         if ($this->request->is('post')) {
-            /*
-            //prendre la donnée du email
-            if (//email) {
-                //envoyer un email si il est présent dans la liste de users
-               // return $this->redirect("\\");
+
+            $email = $this->request->data(['email']);
+
+            //verifier le email
+            if (!empty($email)) {
+                $studentsTable = TableRegistry::get('Students');
+
+                // on verifie si il y a un etudiants associer avec le email
+                $student = $studentsTable->find()->where(['email' => $email])->first();
+
+                if (!empty($student)) {
+
+
+                    $this->Flash->success('Bravo.');
+
+                    //envoyer un email pour informer l'employeur du retrait de l'application.
+                    $courriel = new Email('default');
+                    $message = "Bonjour " . $student['first_name'] . " ".$student['last_name']. " voici votre nouveau mot de passe : TEST";
+                    $courriel->setTo($student['email'])->setSubject('Modifier le mot de passe')->send($message);
+                    
+                    
+                } else {
+                    $this->Flash->error('Email do not match.');
+                }
+            } else {
+                $this->Flash->error('Email empty.');
             }
-             * */
-             
-            $this->Flash->error('Your username or password is incorrect.');
+
+            /*
+              //prendre la donnée du email
+              if (email) {
+              //envoyer un email si il est présent dans la liste de users
+              // return $this->redirect("\\");
+              }
+             */
+
+            // $this->Flash->error('Your username or password is incorrect.');
         }
     }
-    
-    
-    
 
     public function isAuthorized($user) {
 
