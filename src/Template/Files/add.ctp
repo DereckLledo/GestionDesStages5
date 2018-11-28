@@ -15,6 +15,7 @@
     <fieldset>
         <legend><?= __('Add File') ?></legend>
         <?php
+            echo $this->Form->control('id_student');
             echo $this->Form->control('name');
             echo $this->Form->control('path');
             echo $this->Form->control('status');

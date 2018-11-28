@@ -53,6 +53,11 @@ class FilesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
+            ->integer('id_student')
+            ->requirePresence('id_student', 'create')
+            ->notEmpty('id_student');
+
+        $validator
             ->scalar('name')
             ->maxLength('name', 255)
             ->requirePresence('name', 'create')

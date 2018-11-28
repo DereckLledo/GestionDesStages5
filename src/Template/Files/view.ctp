@@ -29,6 +29,10 @@
             <td><?= $this->Number->format($file->id) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Id Student') ?></th>
+            <td><?= $this->Number->format($file->id_student) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Created') ?></th>
             <td><?= h($file->created) ?></td>
         </tr>

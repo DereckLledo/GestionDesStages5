@@ -16,6 +16,7 @@
         <thead>
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('id_student') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('path') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
@@ -28,6 +29,7 @@
             <?php foreach ($files as $file): ?>
             <tr>
                 <td><?= $this->Number->format($file->id) ?></td>
+                <td><?= $this->Number->format($file->id_student) ?></td>
                 <td><?= h($file->name) ?></td>
                 <td><?= h($file->path) ?></td>
                 <td><?= h($file->created) ?></td>

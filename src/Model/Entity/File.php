@@ -7,6 +7,7 @@ use Cake\ORM\Entity;
  * File Entity
  *
  * @property int $id
+ * @property int $id_student
  * @property string $name
  * @property string $path
  * @property \Cake\I18n\FrozenTime $created
@@ -26,6 +27,7 @@ class File extends Entity
      * @var array
      */
     protected $_accessible = [
+        'id_student' => true,
         'name' => true,
         'path' => true,
         'created' => true,
