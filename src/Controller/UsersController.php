@@ -167,13 +167,14 @@ class UsersController extends AppController {
                 $student = $studentsTable->find()->where(['email' => $email])->first();
 
                 if (!empty($student)) {
+                    
+                    $user = $this->Users->get($student['id_user']);
 
-
-                    $this->Flash->success('Bravo.');
+                    $this->Flash->success('Bravo.'. $user['username']);
 
                     //envoyer un email pour informer l'employeur du retrait de l'application.
                     $courriel = new Email('default');
-                    $message = "Bonjour " . $student['first_name'] . " ".$student['last_name']. " voici votre nouveau mot de passe : TEST";
+                    $message = "Bonjour " . $student['first_name'] . " ".$student['last_name'] . ", vous pouvez modifier votre ";
                     $courriel->setTo($student['email'])->setSubject('Modifier le mot de passe')->send($message);
                     
                     
