@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\ORM\TableRegistry;
 use Cake\Mailer\Email;
+use Cake\Core\Exception\Exception;
 
 /**
  * Users Controller
@@ -19,7 +20,7 @@ class UsersController extends AppController {
 
     public function initialize() {
         parent::initialize();
-        $this->Auth->allow(['logout', 'add', 'recover']);
+        $this->Auth->allow(['logout', 'add', 'recover', 'changePw']);
     }
 
     /**
@@ -113,6 +114,39 @@ class UsersController extends AppController {
         $this->set(compact('user'));
     }
 
+    public function changePw($id = null) {
+
+        try {
+            
+            $user = $this->Users->get($id);
+            $data = $this->request->getData();
+            
+            if ($this->request->is(['patch', 'post', 'put'])) {
+                $user = $this->Users->patchEntity($user, $this->request->getData(), [
+                    // Added: Disable modification of user_id.
+                    'accessibleFields' => ['user_id' => false]
+                ]);
+
+                if ($data['password'] == $data['confirm_password']) {
+
+
+
+                    if ($this->Users->save($user)) {
+
+                        $this->Flash->success(__('The user has been saved.'));
+
+                        return $this->redirect("\\");
+                    }
+                } else {
+                    $this->Flash->error(__('Password and confirm password do not match.'));
+                }
+            }
+        } catch (Exception $ex) {
+            $this->Flash->error(__('ID INTROUVABLE'));
+            return $this->redirect("\\");
+        }
+    }
+
     /**
      * Delete method
      *
@@ -167,17 +201,17 @@ class UsersController extends AppController {
                 $student = $studentsTable->find()->where(['email' => $email])->first();
 
                 if (!empty($student)) {
-                    
+
                     $user = $this->Users->get($student['id_user']);
 
-                    $this->Flash->success('Bravo.'. $user['username']);
+                    $this->Flash->success('Bravo.' . $user['username']);
 
                     //envoyer un email pour informer l'employeur du retrait de l'application.
                     $courriel = new Email('default');
-                    $message = "Bonjour " . $student['first_name'] . " ".$student['last_name'] . ", vous pouvez modifier votre ";
+                    $message = "Bonjour " . $student['first_name'] . " " . $student['last_name'] . ", vous pouvez modifier votre mot de passe sur ce lien: "
+                            . ""
+                            . "localhost/GestionDesStages/users/changePw/" . $user['id'];
                     $courriel->setTo($student['email'])->setSubject('Modifier le mot de passe')->send($message);
-                    
-                    
                 } else {
                     $this->Flash->error('Email do not match.');
                 }
