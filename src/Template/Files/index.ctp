@@ -17,12 +17,17 @@
             <th width="5%">#</th>
             <th width="20%">File</th>
             <th width="12%">Upload Date</th>
+            <th scope="col" class="actions"><?= __('Actions') ?></th>
         </tr>
         <?php if($filesRowNum > 0):$count = 0; foreach($files as $file): $count++;?>
         <tr>
             <td><?php echo $count; ?></td>
-            <td><embed src="<?= $file->path.$file->name ?>" width="220px" height="150px"></td>
+            <td><?php echo $file->name; ?></td>
             <td><?php echo $file->created; ?></td>
+            <td class="actions">
+                    <?= $this->Html->link(__('View'), '../webroot/'.h($file->path.$file->name)) ?>
+                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $file->id], ['confirm' => __('Are you sure you want to delete {0}?', $file->name)]) ?>
+             </td>
         </tr>
         <?php endforeach; else:?>
         <tr><td colspan="3">No file(s) found......</td>
