@@ -23,217 +23,42 @@ class FilesController extends AppController {
 		// Load Files model
 		$this->loadModel( 'Files' );
 		// Set the layout
-		// $this->layout = 'frontend';
+// 		$this->layout = 'frontend';
+		$this->Auth->allow(['index']);
 	}
 	
-	/**
-	 * Index method
-	 *
-	 * @return \Cake\Http\Response|void
-	 */
-	public function index()
-	{
-		$this->Flash->error(__("You don't have the right to do that"));
-		return $this->redirect(['controller'=>'Airlines', 'action'=>'index']);
-	}
-	
-	//     /**
-	//      * View method
-	//      *
-	//      * @param string|null $id File id.
-	//      * @return \Cake\Http\Response|void
-	//      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-	//      */
-	//     public function view($id = null)
-	//     {
-	//     	$file = $this->Files->get($id, [
-			//     			'contain' => ['Users', 'Airlines']
-	//     	]);
-			
-	//     	$this->set('file', $file);
-	//     }
-	
-	/**
-	 * Add method
-	 *
-	 * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-	 */
-	public function add($airline_id = null) {
-		$file = $this->Files->newEntity();
-		if ( $this->request->is( 'post' ) ) {
-			if ( ! empty( $this->request->data['file']['name'] ) ) {
-				
+	public function index(){
+		$uploadData = '';
+		if ($this->request->is('post')) {
+			if(!empty($this->request->data['file']['name'])){
 				$fileName = $this->request->data['file']['name'];
 				$uploadPath = 'uploads/files/';
-				$uploadFile = $uploadPath . $fileName;
-				
-				if ( move_uploaded_file( $this->request->data['file']['tmp_name'], $uploadFile ) ) {
-					
-					$file = $this->Files->patchEntity( $file, $this->request->getData() );
-					$file->airline_id = $airline_id;
-					
-					
-					$file->user_id = $this->Auth->user('id');
-					
-					$file->name = $fileName;
-					$file->path = $uploadPath;
-					$file->created = date( "Y-m-d H:i:s" );
-					$file->modified = date( "Y-m-d H:i:s" );
-					if ( $this->Files->save( $file ) ) {
-						$this->Flash->success( __( 'Logo has been uploaded and inserted successfully.' ) );
-						return $this->redirect(['controller'=>'Airlines', 'action'=>'index']);
-					} else {
-						$this->Flash->error( __( 'Unable to upload logo, please try again.' ) );
+				$uploadFile = $uploadPath.$fileName;
+				if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)){
+					$uploadData = $this->Files->newEntity();
+					$uploadData->id_student = 13;
+					$uploadData->name = $fileName;
+					$uploadData->path = $uploadPath;
+					$uploadData->created = date("Y-m-d H:i:s");
+					$uploadData->modified = date("Y-m-d H:i:s");
+					if ($this->Files->save($uploadData)) {
+						$this->Flash->success(__('File has been uploaded and inserted successfully.'));
+					}else{
+						$this->Flash->error(__('Unable to upload file, please try again.'));
 					}
-				} else {
-					$this->Flash->error( __( 'Unable to upload logo, please try again.' ) );
+				}else{
+					$this->Flash->error(__('Unable to upload file, please try again.'));
 				}
-			} else {
-				$this->Flash->success( __( 'The airline don\'t have a logo' ) );
-				return $this->redirect(['controller'=>'Airlines', 'action'=>'index']);
-			}
-		}
-		$this->set( 'file', $file );
-		
-		$files = $this->Files->find( 'all', [
-				'order'=>[
-						'Files.created'=>'DESC'
-				]
-		] );
-		$filesRowNum = $files->count();
-		$this->set( 'files', $files );
-		$this->set( 'filesRowNum', $filesRowNum );
-		
-		$airlines = $this->Files->Airlines->find('list', ['limit' => 200]);
-		$users = $this->Files->Users->find('list', ['limit' => 200]);
-		$this->set(compact('file', 'airlines', 'users'));
-	}
-	
-	/**
-	 * Edit method
-	 *
-	 * @param string|null $id File id.
-	 * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-	 * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-	 */
-	public function edit($airline_id = null)
-	{
-		$files = TableRegistry::get('files');
-		$file = $files
-		->find()
-		->where(['airline_id =' => $airline_id])
-		->order(['created' => 'DESC'])
-		->first();
-		
-		if($file == null){
-			return $this->redirect(['action'=>'add', $airline_id]);
-		}
-		
-		if ($this->request->is(['patch', 'post', 'put'])) {
-			if ( ! empty( $this->request->data['file']['name'] ) ) {
-				
-				$file->name = $fileName = $this->request->data['file']['name'];
-				$uploadPath = 'uploads/files/';
-				$uploadFile = $uploadPath . $fileName;
-				
-				if ( move_uploaded_file( $this->request->data['file']['tmp_name'], $uploadFile ) ) {
-					
-					$file = $this->Files->patchEntity( $file, $this->request->getData() );
-					
-					if ( $this->Files->save( $file ) ) {
-						$this->Flash->success( __( 'Logo has been uploaded and inserted successfully.' ) );
-						return $this->redirect(['controller'=>'Airlines', 'action'=>'index']);
-					} else {
-						$this->Flash->error( __( 'Unable to upload logo, please try again.' ) );
-					}
-				} else {
-					$this->Flash->error( __( 'Unable to upload logo, please try again.' ) );
-				}
-			} else {
-				// 				return $this->redirect(['action'=>'delete', $airline_id]);
-				$this->Flash->success( __( 'No logo have been upload' ) );
-				return $this->redirect(['controller'=>'Airlines', 'action'=>'index']);
-			}
-		}
-		$this->set( 'file', $file );
-		
-		$files = $this->Files->find( 'all', [
-				'order'=>[
-						'Files.created'=>'DESC'
-				]
-		] );
-		$filesRowNum = $files->count();
-		$this->set( 'files', $files );
-		$this->set( 'filesRowNum', $filesRowNum );
-		
-		$airlines = $this->Files->Airlines->find('list', ['limit' => 200]);
-		$users = $this->Files->Users->find('list', ['limit' => 200]);
-		$this->set(compact('file', 'airlines', 'users'));
-	}
-	
-	/**
-	 * Delete method
-	 *
-	 * @param string|null $id File id.
-	 * @return \Cake\Http\Response|null Redirects to index.
-	 * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-	 */
-	public function delete($airline_id = null)
-	{
-		$files = TableRegistry::get('files');
-		$file = $files
-		->find()
-		->where(['airline_id =' => $airline_id])
-		->order(['created' => 'DESC'])
-		->first();
-		
-		if($file == null){
-			return $this->redirect(['controller'=>'Airlines', 'action'=>'index']);
-		}
-		
-		// 		$this->request->allowMethod(['post', 'delete']);
-		// 		     $file = $this->Files->get($id);
-		
-		try {
-			unlink("../webroot/".$file->path.$file->name);
-			if ($this->Files->delete($file)) {
-				$this->Flash->success(__('The logo has been deleted.'));
-			} else {
-				$this->Flash->error(__('The logo could not be deleted. Please, try again.'));
-			}
-		} catch (PDOException $e) {
-			$this->Flash->error(__('The logo could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(['controller'=>'Airlines', 'action'=>'index']);
-		
-	}
-	
-	public function isAuthorized($user)
-	{
-		//Check admin right
-		if ($user['admin']) {
-			return true;
-		} else {
-			$action = $this->request->getParam('action');
-			// The add and tags actions are always allowed to logged in users.
-			if (in_array($action, ['add', 'delete'])) {
-				return true;
+			}else{
+				$this->Flash->error(__('Please choose a file to upload.'));
 			}
 			
-			// All other actions require a slug.
-			$airline_id = $this->request->getParam('pass.0');
-			if (!$airline_id) {
-				return false;
-			}
-			
-			// Check that the airline belongs to the current user.
-			$files = TableRegistry::get('files');
-			$file = $files
-			->find()
-			->where(['airline_id =' => $airline_id])
-			->order(['created' => 'DESC'])
-			->first();
-			return $file['user_id'] === $user['id'];
 		}
+		$this->set('uploadData', $uploadData);
+		
+		$files = $this->Files->find('all', ['order' => ['Files.created' => 'DESC']]);
+		$filesRowNum = $files->count();
+		$this->set('files',$files);
+		$this->set('filesRowNum',$filesRowNum);
 	}
 }

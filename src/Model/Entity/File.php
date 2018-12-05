@@ -13,10 +13,13 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  * @property bool $status
+ * 
+ * @property \App\Model\Entity\User $user
+ * @property \App\Model\Entity\Student $student
+ * @property \App\Model\Entity\Student[] $students
  */
 class File extends Entity
 {
-
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *
