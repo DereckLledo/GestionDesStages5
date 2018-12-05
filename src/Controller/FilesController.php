@@ -27,7 +27,7 @@ class FilesController extends AppController {
 		$this->Auth->allow(['index']);
 	}
 	
-	public function index(){
+	public function index($id_student = null){
 		$uploadData = '';
 		if ($this->request->is('post')) {
 			if(!empty($this->request->data['file']['name'])){
@@ -36,7 +36,7 @@ class FilesController extends AppController {
 				$uploadFile = $uploadPath.$fileName;
 				if(move_uploaded_file($this->request->data['file']['tmp_name'],$uploadFile)){
 					$uploadData = $this->Files->newEntity();
-					$uploadData->id_student = 13;
+					$uploadData->id_student = $id_student;
 					$uploadData->name = $fileName;
 					$uploadData->path = $uploadPath;
 					$uploadData->created = date("Y-m-d H:i:s");

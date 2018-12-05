@@ -74,6 +74,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 					echo $this->Html->link( $texteAdd , ['controller'=>'Users', 'action'=>'add'] );
                                         echo "</li><li>";
                                         echo $this->Html->link( 'Modifier mon compte' , ['controller'=>$type, 'action'=>'modifier'] );
+                                        echo "</li><li>";
+                                        echo $this->Html->link( 'Mes fichier' , ['controller'=>'Students', 'action'=>'fichier'] );
 
                                         
                                         
