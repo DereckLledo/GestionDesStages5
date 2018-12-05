@@ -139,6 +139,21 @@ class StudentsController extends AppController {
         //redirection
         return $this->redirect('/Students/Edit/' . $id_student);
     }
+    
+    public function fichier() {
+    	//id du user connecté
+    	$id_user = $this->Auth->user('id');
+    	
+    	
+    	$studentsTable = TableRegistry::get('Students');
+    	$query = $studentsTable->find()->select(['id'])->where(['id_user' => $id_user]);
+    	
+    	foreach ($query as $off) {
+    		$id_student = $off['id'];
+    	}
+    	//redirection
+    	return $this->redirect('/Files/index/' . $id_student);
+    }
 
     public function findApplications() {
         //id du user connecté
@@ -261,7 +276,7 @@ class StudentsController extends AppController {
         }
 
         // authorize l'access a modifier pour les étudiants
-        if (in_array($action, ['modifier', 'findApplications']) && $user['type'] == "0") {
+        if (in_array($action, ['modifier', 'findApplications', 'fichier']) && $user['type'] == "0") {
             return true;
         }
 
