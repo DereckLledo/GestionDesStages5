@@ -10,6 +10,11 @@ $loguser = $this->request->getSession()->read( 'Auth.User' );
     <ul class="side-nav">
         <li class="heading"><?= __('Actions') ?></li>
         <li><?= $this->Html->link(__('New Internship Offer'), ['action' => 'add']) ?></li>
+        <li><?php
+            if ( $loguser['type'] == 2 ) { 
+                echo $this->Html->link(__('List Students'), ['controller' => 'Students', 'action' => 'index']);     
+            };
+        ?></li>
     </ul>
 </nav>
 <div class="internshipOffers index large-9 medium-8 columns content">

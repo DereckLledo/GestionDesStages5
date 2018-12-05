@@ -15,34 +15,26 @@
     <table cellpadding="0" cellspacing="0">
         <thead>
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('id_user') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('admission_number') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('first_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('last_name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('phone') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('email') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('note') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('actif') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($students as $student): ?>
             <tr>
-                <td><?= $this->Number->format($student->id) ?></td>
-                <td><?= $this->Number->format($student->id_user) ?></td>
                 <td><?= $this->Number->format($student->admission_number) ?></td>
                 <td><?= h($student->first_name) ?></td>
                 <td><?= h($student->last_name) ?></td>
                 <td><?= h($student->phone) ?></td>
                 <td><?= h($student->email) ?></td>
                 <td><?= h($student->note) ?></td>
-                <td><?= h($student->actif) ?></td>
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $student->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $student->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $student->id], ['confirm' => __('Are you sure you want to delete # {0}?', $student->id)]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
