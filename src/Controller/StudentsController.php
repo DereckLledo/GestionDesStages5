@@ -107,6 +107,24 @@ class StudentsController extends AppController {
         $this->set(compact('student'));
     }
 
+    
+    public function choisirEtudiant($id = null) {
+
+        $student = $this->Students->get($id, [
+        ]);
+        
+        $student['internship'] = true;
+                     
+        if($this->Students->save($student)) {
+            $this->Flash->success(__('Vous avez sélectionné cet étudiant pour un stage.'));
+        } else {
+             $this->Flash->error(__('Erreur dans la sélection de l\'étudiant'));
+        }
+        
+        return $this->setAction('view', $id);
+    }
+    
+
     public function modifier() {
         //id du user connecté
         $id_user = $this->Auth->user('id');
@@ -205,6 +223,7 @@ class StudentsController extends AppController {
         $this->set('student', $student);
     }
 
+
     public function isAuthorized($user) {
 
 
@@ -234,6 +253,10 @@ class StudentsController extends AppController {
                 }
             }
         } else if ($user['type'] == "2") {
+            if (in_array($action, ['index','view','choisirEtudiant'])) {
+                return true;
+            }
+            
             return false;
         }
 
