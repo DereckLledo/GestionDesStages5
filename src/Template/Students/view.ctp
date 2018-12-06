@@ -58,10 +58,11 @@
         <?= $this->Text->autoParagraph(h($student->other_detail)); ?>
     </div>
     <?php 
+    $idStudent = $student['id'];
+    echo $this->Form->postButton('Voir ses fichiers', ['controller' => 'Files', 'action' => 'index',$idStudent]);
     $loguser = $this->request->getSession()->read( 'Auth.User' );
     //si le user est un employeur et que l'étudiant n'a pas de stage
     if ($loguser['type'] == 2 && !$student->internship) {
-          $idStudent = $student['id'];
           echo $this->Form->postButton('Choisir cet étudiant', ['controller' => 'students', 'action' => 'choisirEtudiant',$idStudent]);
       }?>
 </div>

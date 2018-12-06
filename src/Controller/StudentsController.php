@@ -51,8 +51,15 @@ class StudentsController extends AppController {
             //permet de voir les internshipoffers auquel il a postuler
             'contain' => ['InternshipOffers']
         ]);
-
+        
+//         $filesTable = TableRegistry::get('Files');
+//         $files = $filesTable->where(['id_student' => $id])->toArray();
+        
+//         $filesRowNum = count($files);
+ 
+//         $this->set ( 'filesRowNum', $filesRowNum );
         $this->set('student', $student);
+//         $this->set('files', $files);
     }
 
     /**

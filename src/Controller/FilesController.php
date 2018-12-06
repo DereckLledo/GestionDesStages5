@@ -32,7 +32,8 @@ class FilesController extends AppController {
 	public function index($id_student = null) {
 		$uploadData = '';
 		$maxSize = 5000000;
-		if ($this->request->is ( 'post' )) {
+
+		if ($this->request->is( 'post' )) {
 			if (! empty ( $this->request->data ['file'] ['name'] )) {
 				$fileName = $this->request->data ['file'] ['name'];
 				$uploadPath = 'uploads/files/';

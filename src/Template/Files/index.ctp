@@ -1,3 +1,7 @@
+<?php 
+$loguser = $this->request->getSession()->read( 'Auth.User' ); ?>
+
+<?php if ($loguser['type'] == 0): ?>
 <h1>Upload File</h1>
 <div class="content">
     <?= $this->Flash->render() ?>
@@ -8,6 +12,7 @@
         <?php echo $this->Form->end(); ?>
     </div>
 </div>
+<?php endif;?>
 
 <h1>Uploaded Files</h1>
 <div class="content">
