@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "769464466023",
+    "firebase_url": "https://nicolasmeunier-47f42.firebaseio.com",
+    "project_id": "nicolasmeunier-47f42",
+    "storage_bucket": "nicolasmeunier-47f42.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769464466023:android:6c015b1a2325692b",
+        "android_client_info": {
+          "package_name": "ca.cours5b5.Nicolasmeunier"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "769464466023-fcd65dm8p3i1qf3te5un4n7slhhit5bu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ca.cours5b5.Nicolasmeunier",
+            "certificate_hash": "dfab974af2b918716e45685c86940232dbcd7c05"
+          }
+        },
+        {
+          "client_id": "769464466023-42j2fpcusf3af09a21paotn0td7ujso5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcHizDsTEOq0_Po6Yri2tBXqCPpDt71H0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "769464466023-42j2fpcusf3af09a21paotn0td7ujso5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
